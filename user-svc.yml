@@ -2,6 +2,7 @@ jwt:
     issuer: kanzirunner@gmail.com
     secret_key: iYkt5hDkWaNVg45DKQdZGi+Pd9tKZuTUONSghawgEWY=
 token:
+    secret: iYkt5hDkWaNVg45DKQdZGi+Pd9tKZuTUONSghawgEWY=
     expiration_time: 150
 spring:
     cloud:
