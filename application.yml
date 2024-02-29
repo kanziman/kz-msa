@@ -1,6 +1,6 @@
 spring:
     datasource:
-        url: jdbc:mariadb://127.0.0.1:3306/stock_db
+        url: jdbc:mariadb://localhost:3306/stock_db
         username: root
         password: "{cipher}AQCOejsRBmBh33qWGtNPF28QUA2dvi7Hbqk6WUxfMhCE3sjfTXBslAHwgLZzUt4zbkehbGhcAjuQVBfEB5EqVQk4C+7O9v6OZDDhO34WPU61xCbxsoB2xGVcog1ivbKYs3XI5yyTGLrSIKopid1yk+gozG2vwPaIsQ/I28fu6OO3nXVkAq3yiWjz9LziWAiq4Y3G3scPydupJkRGRo2Js2iUL7oZQANjBWJsZawZrwv0vfgHhlzH0yePf2fuP18mlc73oE9IUoO7ff8+rrA5I6i/LnBFHyiHNy4hGkQ2VYYNhOiJMHOljoG3Gn5Vx6A6UJDKzO+bNHrJHnQnvnXrqy1DFkGyfUTvd7p4HrEK+TxlnQxC3gQhPa5KTHQmSpEGuxI="
         driver-class-name: org.mariadb.jdbc.Driver
