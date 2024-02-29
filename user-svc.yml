@@ -3,5 +3,8 @@ jwt:
     secret_key: iYkt5hDkWaNVg45DKQdZGi+Pd9tKZuTUONSghawgEWY=
 token:
     expiration_time: 150
-database:
-    test: "{cipher}AQBHjDm8rLM22e3DbZot+vk8AXgRrfPsHuEQkIpNSJZostqZJbMCVBbsjDH0W2zziWTdIdx6P2/0TRB9xbDcEaXV9TxKqFrHas7M5BPlziij9ZZpTRGrYWEQT8lMzqS8vzGINoi4Q6uHfZNmbO4sohVUiUo5qkSD7jRX4WGbHYkNZkOdhhVK+S08/YxSDiCQcaQCjquOzXjVO6ZujZaEi93HmONULy10C8oQy2Xlx2hYGaQY5OWznh46u9Ydc10nBlEUeTrkA+G2BcqXdDpNmiXCuZD/rwg9r9pB3JnLQP8/FLmy4fNGUnQypflxgqsAZEkFZMF5aPs2VvbmUXbf0A4Yw0eB2+FFWNEJ7RUgKofCT8XAipnCMLY9rVEY8zSJ+Wo="
+datasource:
+    url: jdbc:mariadb://127.0.0.1:3306/stock_db
+    username: root
+    password: "{cipher}AQBHjDm8rLM22e3DbZot+vk8AXgRrfPsHuEQkIpNSJZostqZJbMCVBbsjDH0W2zziWTdIdx6P2/0TRB9xbDcEaXV9TxKqFrHas7M5BPlziij9ZZpTRGrYWEQT8lMzqS8vzGINoi4Q6uHfZNmbO4sohVUiUo5qkSD7jRX4WGbHYkNZkOdhhVK+S08/YxSDiCQcaQCjquOzXjVO6ZujZaEi93HmONULy10C8oQy2Xlx2hYGaQY5OWznh46u9Ydc10nBlEUeTrkA+G2BcqXdDpNmiXCuZD/rwg9r9pB3JnLQP8/FLmy4fNGUnQypflxgqsAZEkFZMF5aPs2VvbmUXbf0A4Yw0eB2+FFWNEJ7RUgKofCT8XAipnCMLY9rVEY8zSJ+Wo="
+    driver-class-name: org.mariadb.jdbc.Driver
