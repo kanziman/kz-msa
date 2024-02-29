@@ -1,0 +1,26 @@
+jwt:
+  issuer: kanzirunner@gmail.com
+  secret_key: iYkt5hDkWaNVg45DKQdZGi+Pd9tKZuTUONSghawgEWY=
+token:
+  secret: iYkt5hDkWaNVg45DKQdZGi+Pd9tKZuTUONSghawgEWY=
+  expiration_time: 150
+spring:
+  cloud:
+  # config:
+  # allow-override: true
+  # override-none: true
+  datasource:
+    url: jdbc:mysql://toolz-mariadb.ccuissfgxozr.ap-northeast-2.rds.amazonaws.com:3306/stock_db
+    username: "{cipher}AQAn2lPLfcJTGJO+uy1F9m1rbfPaQJ5ibA+5ZPvbLFei03ept1IlxcqHHG2DOefIC94KQrMbkdRkwTURwPKGhrtP1e36rb66GdZ97ThsbuLbmp0sGv3+t/ZQo8yuIEn25NA3oK3OjVaWVwPzJI2w3+L6tbcWOgjW/Usp3BOM/duRdw+9pKljdwq1A90zFZ5xIDAfYTLZuRQbfv/hRX9SztwfSF45KSgdwkYwYN2xVw15wfHstdiX0Tz7Jj/ufyBGsgJspDET6byHKJ7zlpDeuWJv4gwDitdoGzawqhS9KOFrrfx51rWwVJ9LBSCZYFNhCXYKMas9xGRwQhw1Pd4WktGU03AtgLobH3TFOSPxb9LbS7l7vmwybcAWBMUkBHYmNpo="
+    password: "{cipher}AQA820KiNrHXfoSiMP7GSRAFcG3jLPeSjlHxvC2uoObrPWK/lSxjt3O//le4CKPWPUgnQPMm7CKegEyR8SYq+tjpF53DRE+8X+Us1W1FrWbxe0YHqrBBXGrWjhLSjMQO194ErYVfwr4eY5KGG9I9f86LsbZ5r1OVn8ovxdfhRXXiZh5EZhxA3jQFaN8HKC355KR1jEireY91mJO1M5mLIArQkhEqLjAVmoghJi5MRKmHE1b1DXmTyrPw5646IJvySMgXlAsoSyLE3Jq5/0jTdMi/rJMd4xW6ntRmfXJQTSV2Pt5TqspYRkiwjBmwshwjvvxz1xkVcnuNbaupLScfiai4eqSp3awDn7N+mhnmAct5u6VRq392vV5mTmFB4/fnC/A="
+    driver-class-name: org.mariadb.jdbc.Driver
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-secret: "{cipher}AQAaHGEhkZ+TADhbHow4I30hdELkRlvxFPc+tH95z8YhSUizvAIbucWorpoNKussyQDIVkVMgWee4Ic+yE237WJH/g/Q+BtEdj0SWBKz9Lt93EvYeGXB3XYusCzN3o7yPTLcOhWqhjM+DdCeTh3wYhHxOuQnRnW/fJXeMSiZ1VKKDSOmEvPs8B3k9d7dUVS8ZTOqRFGV9+w5qzog27uKPgtsbK42ff+xZihjfmVNM0ScTsSdLKlP0xx5B3Db7hNJR8L2HygHrOWu311Lk8GXtx5WTyfsIKKDc/DD86+zfAxLD5G33OjSvvIhbXK6/3zxTBNl4JC/3Nu/ePvgpemGg3bOorDVSt+hV3m8eRU//kQOcB2W0AAOM4h4hC3IWSzvb6W1+jjR1v4kW6CpddoLzx0V"
+          naver:
+            client-secret: "{cipher}AQBK+NC3yjlvsA3Dsafh3NR/YvuJ65LSWbPRtuVivXT6wqEs5m4fJqhr2cXFvTeMfvj+pJFidKom+oBTx452E9levUGU4Ir03SKttNXObiOm/DcnwOYQCiLs1HYj3sgvT4XoMkqpqYeE5CO2oMtW7JdEMGnyxmBAxtAGCbU0ICBdoJyj1c01MFp0fEerJ1/7KC/+4Lnhzt8avn470qOeHU5GWn4H5AR5qHFwhF+cAILUKRGI8258tYOhJ4NKyRNUM+VveADiui/340BLz7G+I5WLnw+0pW9ZJ/Ntymb1T6gfltzu0xZ5D0O/Fp+VpFQ0t9y4q8B1DSJGHtI8GrUNK5YiMjXBFxLNB6XXkm6R/L+wItXQK/RKR8twnv0Adgv59WY="
+          kakao:
+            client-secret: "{cipher}AQBqBtoGeHTDCNA2noTtT/SfbW4kevnMfYrzjuRxeeu25fmTOyNlj3YfZTa7Aorrw7dBDjsBf1Vhd67pAKrlDAUuR1vp8CGpEiD+L5PAwfRJKo7N9TYQzuaKeW+gh4LQ7eO1Obt4TUbVj0zNoA1M03KbQOoRdSrhsHpREPCF85pStixfun6e+hwV0RNgxPaXxz+KGLmFrzVREgp3PLGuP9LF+zoRjw4NC/oUU3aZX+LcpJZbsGrEN+Xzj9XFYkowSJaPROixo3kMyNWaVZYjJJjUm/eXby5dzg9OdmFCgd7hygBmKFXw9bIYpswLSe7Tq6gjLYEfMyh0Jl5DzIFeKCDO/W1U5YSydwD0xjp7Q+2Wcz2l/Esm7flOvSO3gVpF8D1UiiLuoWpdCYCPxuUnTF57xd0JWob3vAWfJIwRalr0zQ=="
