@@ -8,12 +8,16 @@ spring:
         # config:
         # allow-override: true
         # override-none: true
+        # datasource:
+        #     url: jdbc:mariadb://mariadb:3306/stock_db
+        #     username: root
+        #     password: "{cipher}AQCOejsRBmBh33qWGtNPF28QUA2dvi7Hbqk6WUxfMhCE3sjfTXBslAHwgLZzUt4zbkehbGhcAjuQVBfEB5EqVQk4C+7O9v6OZDDhO34WPU61xCbxsoB2xGVcog1ivbKYs3XI5yyTGLrSIKopid1yk+gozG2vwPaIsQ/I28fu6OO3nXVkAq3yiWjz9LziWAiq4Y3G3scPydupJkRGRo2Js2iUL7oZQANjBWJsZawZrwv0vfgHhlzH0yePf2fuP18mlc73oE9IUoO7ff8+rrA5I6i/LnBFHyiHNy4hGkQ2VYYNhOiJMHOljoG3Gn5Vx6A6UJDKzO+bNHrJHnQnvnXrqy1DFkGyfUTvd7p4HrEK+TxlnQxC3gQhPa5KTHQmSpEGuxI="
+        #     driver-class-name: org.mariadb.jdbc.Driver
         datasource:
-            url: jdbc:mariadb://mariadb:3306/stock_db
-            username: root
-            password: "{cipher}AQCOejsRBmBh33qWGtNPF28QUA2dvi7Hbqk6WUxfMhCE3sjfTXBslAHwgLZzUt4zbkehbGhcAjuQVBfEB5EqVQk4C+7O9v6OZDDhO34WPU61xCbxsoB2xGVcog1ivbKYs3XI5yyTGLrSIKopid1yk+gozG2vwPaIsQ/I28fu6OO3nXVkAq3yiWjz9LziWAiq4Y3G3scPydupJkRGRo2Js2iUL7oZQANjBWJsZawZrwv0vfgHhlzH0yePf2fuP18mlc73oE9IUoO7ff8+rrA5I6i/LnBFHyiHNy4hGkQ2VYYNhOiJMHOljoG3Gn5Vx6A6UJDKzO+bNHrJHnQnvnXrqy1DFkGyfUTvd7p4HrEK+TxlnQxC3gQhPa5KTHQmSpEGuxI="
+            url: "{cipher}AQCz09D9wQAf5j6WHwcXndHA8Jc/sAFHwlofdLsyLiw/G6Tj5dSMC6Bt2pHb1oC1mKSemz3tQTOoJSQHPi+NjHfA0SQTNdr4O4PU/TUrvr9t7/72qCVXEYuq6FfLJ+Wzs1TAmrTF1SqpEEZkFs91FQrzhryxb36tsqbdWopDpzhgxT7EozIlBqLFzM4kXXAf5/lSbSU+3QIhtdjBFienrRlPWMW32BaIcyeNh2AxKTcK3ltA3v2pWuJppJ5fxvS1dylvU1lYor6a745vVPhan8BiIU+5E5kgjMim/3SNE1u93e8GrDiZkEi+FdUlLklIDTM/kOrEUOF2vV7as/6p6LJHzpkpuP01NOf7MmeilJQQRoDOrdT2/sVxmRRzPiQ7+Lo="
+            username: "{cipher}AQAn2lPLfcJTGJO+uy1F9m1rbfPaQJ5ibA+5ZPvbLFei03ept1IlxcqHHG2DOefIC94KQrMbkdRkwTURwPKGhrtP1e36rb66GdZ97ThsbuLbmp0sGv3+t/ZQo8yuIEn25NA3oK3OjVaWVwPzJI2w3+L6tbcWOgjW/Usp3BOM/duRdw+9pKljdwq1A90zFZ5xIDAfYTLZuRQbfv/hRX9SztwfSF45KSgdwkYwYN2xVw15wfHstdiX0Tz7Jj/ufyBGsgJspDET6byHKJ7zlpDeuWJv4gwDitdoGzawqhS9KOFrrfx51rWwVJ9LBSCZYFNhCXYKMas9xGRwQhw1Pd4WktGU03AtgLobH3TFOSPxb9LbS7l7vmwybcAWBMUkBHYmNpo="
+            password: "{cipher}AQA820KiNrHXfoSiMP7GSRAFcG3jLPeSjlHxvC2uoObrPWK/lSxjt3O//le4CKPWPUgnQPMm7CKegEyR8SYq+tjpF53DRE+8X+Us1W1FrWbxe0YHqrBBXGrWjhLSjMQO194ErYVfwr4eY5KGG9I9f86LsbZ5r1OVn8ovxdfhRXXiZh5EZhxA3jQFaN8HKC355KR1jEireY91mJO1M5mLIArQkhEqLjAVmoghJi5MRKmHE1b1DXmTyrPw5646IJvySMgXlAsoSyLE3Jq5/0jTdMi/rJMd4xW6ntRmfXJQTSV2Pt5TqspYRkiwjBmwshwjvvxz1xkVcnuNbaupLScfiai4eqSp3awDn7N+mhnmAct5u6VRq392vV5mTmFB4/fnC/A="
             driver-class-name: org.mariadb.jdbc.Driver
-
         security:
             oauth2:
                 client:
