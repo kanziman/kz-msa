@@ -1,7 +1,9 @@
 
 spring:
-  profiles:
-    active: local
+#  profiles:
+#    active: local
+  config:
+    import: classpath:application-oauth.yml
   application:
     name: user-svc
   rabbitmq:
