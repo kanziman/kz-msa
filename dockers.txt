@@ -1,0 +1,84 @@
+#network
+docker network create --gateway 172.16.0.1 --subnet 172.16.0.0/16 kz-network
+
+### RabbitMQ
+docker run -d --name rabbitmq --network kz-network \
+ -p 15672:15672 -p 5672:5672 -p 15671:15671 -p 5671:5671 -p 4369:4369 \
+ -e RABBITMQ_DEFAULT_USER=guest \
+ -e RABBITMQ_DEFAULT_PASS=guest rabbitmq:management
+
+### CONFIG
+docker build -t toolzowner/config-svc:1.0 ./config-svc
+
+docker run -d -p 8888:8888 --network kz-network \
+ -e "spring.rabbitmq.host=rabbitmq" \
+ -e "spring.profiles.active=default" \
+  --name config-svc toolzowner/config-svc:1.0
+
+docker push toolzowner/config-svc:1.0
+
+### DISCOVERY
+docker build -t toolzowner/discovery-svc:1.0 ./discovery-svc
+
+docker run -d -p 8761:8761 --network kz-network \
+ -e "spring.cloud.config.uri=http://config-svc:8888" \
+ --name discovery-svc toolzowner/discovery-svc:1.0
+
+docker push toolzowner/discovery-svc:1.0
+
+### GATEWAY
+docker build -t toolzowner/gateway-svc:1.0 ./gateway-svc
+
+docker run -d -p 8000:8000 --network kz-network \
+ -e "spring.cloud.config.uri=http://config-svc:8888" \
+ -e "spring.rabbitmq.host=rabbitmq" \
+ -e "eureka.client.serviceUrl.defaultZone=http://discovery-svc:8761/eureka/" \
+ --name gateway-svc toolzowner/gateway-svc:1.0
+
+docker push toolzowner/gateway-svc:1.0
+
+
+### USER
+docker build -t toolzowner/user-svc:1.0 ./user-svc
+
+docker run -d --network kz-network \
+  --name user-svc \
+ -e "spring.cloud.config.uri=http://config-svc:8888" \
+ -e "spring.rabbitmq.host=rabbitmq" \
+ -e "eureka.client.serviceUrl.defaultZone=http://discovery-svc:8761/eureka/" \
+ -e "logging.file=/api-logs/users-ws.log" \
+ toolzowner/user-svc:1.0
+
+docker push toolzowner/user-svc:1.0
+
+### POST
+docker build -t toolzowner/post-svc:1.0 ./post-svc
+
+ docker run -d --network kz-network \
+  --name post-svc \
+ -e "spring.cloud.config.uri=http://config-svc:8888" \
+ -e "spring.rabbitmq.host=rabbitmq" \
+ -e "eureka.client.serviceUrl.defaultZone=http://discovery-svc:8761/eureka/" \
+ -e "logging.file=/api-logs/posts-ws.log" \
+ toolzowner/post-svc:1.0
+
+docker push toolzowner/post-svc:1.0
+
+
+## DB
+docker run -d -p 3306:3306  --network kz-network --name mariadb toolzowner/my_mariadb:1.0
+
+docker run -d -p 3306:3306 \
+  --name mariadb \
+  --network=kz-network \
+  -v mariadb_data:/var/lib/mysql \
+  toolzowner/my_mariadb:1.0
+
+  docker run -d \
+  -p 3306:3306 \
+  --name mariadb \
+  -v 46519ec4fda8592710abbe8e982e8ba20d41e4fc10faa8e176e00ddabd36da5b:/var/lib/mysql \
+  -e MYSQL_ROOT_PASSWORD=tese1234 \
+  --network=kz-network \
+  toolzowner/my_mariadb:1.0
+

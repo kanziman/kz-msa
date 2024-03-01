@@ -1,0 +1,82 @@
+server:
+  port: 8000
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: gateway-svc
+    rabbitmq:
+      host: 127.0.0.1
+      port: 5672
+      username: guest
+      password: guest
+  cloud:
+    gateway:
+      default-filters:
+        - name: GlobalFilter
+          args:
+            baseMessage: Spring Cloud Gateway Global Filter
+            preLogger: true
+            postLogger: true
+
+      routes:
+        ### USER ###
+        - id: user-svc
+          uri: lb://USER-SVC
+          predicates:
+            - Path=/user-svc/**, /oauth2/**, /login/**, /api/users/**
+            - Method=GET
+          filters:
+            - name: CustomFilter
+
+        - id: user-svc
+          uri: lb://USER-SVC
+          predicates:
+            - Path=/api/users/**
+            - Method=POST,PATCH,PUT,DELETE
+          filters:
+            - name: AuthorizationHeaderFilter
+
+        - id: user-svc
+          uri: lb://USER-SVC
+          predicates:
+            - Path=/actuator/**
+            - Method=POST,GET
+          filters:
+            - name: LoggingFilter
+
+        ### POST/STOCK ###
+        - id: post-svc
+          uri: lb://POST-SVC
+          predicates:
+            - Path=/api/posts/**
+            - Method=GET
+          filters:
+            - name: LoggingFilter
+        - id: post-svc
+          uri: lb://POST-SVC
+          predicates:
+            - Path=/api/posts/**
+            - Method=POST,PUT,PATCH,DELETE
+          filters:
+            - name: AuthorizationHeaderFilter
+        - id: post-svc
+          uri: lb://POST-SVC
+          predicates:
+            - Path=/api/stock/**
+            - Method=POST,PUT,PATCH,DELETE,GET,OPTIONS
+          filters:
+            - name: LoggingFilter
+
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway:

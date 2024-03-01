@@ -1,0 +1,29 @@
+
+spring:
+  profiles:
+    active: test
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100 #최적화 옵션
+#    hibernate:
+#      naming:
+#        physical-strategy : org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    #      ddl-auto: update
+    defer-datasource-initialization: true
+  datasource:
+    url: jdbc:h2:mem:~/kz
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    hibernate:
+      naming:
+        physical-strategy : org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: update
+    defer-datasource-initialization: true
+  h2:
+    console:
+      enabled: true
+

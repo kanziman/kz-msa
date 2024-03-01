@@ -1,0 +1,26 @@
+server:
+    port: 8888
+
+spring:
+    profiles:
+        active: native
+    application:
+        name: config-svc
+    cloud:
+        config:
+            server:
+                native:
+                    search-locations: file://${user.home}/kz-msa
+                git:
+                    uri: https://github.com/kanziman/kz-msa
+    rabbitmq:
+        host: 127.0.0.1
+        port: 5672
+        username: guest
+        password: guest
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: health, busrefresh

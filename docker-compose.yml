@@ -1,0 +1,81 @@
+version: "2"
+services:
+    rabbitmq:
+        image: rabbitmq:management
+        ports:
+            - "15671:15671"
+            - "15672:15672"
+            - "5671:5671"
+            - "5672:5672"
+            - "4369:4369"
+        environment:
+            RABBITMQ_DEFAULT_USER: guest
+            RABBITMQ_DEFAULT_PASS: guest
+        networks:
+            my-network:
+
+    config-svc:
+        image: toolzowner/config-svc:1.0
+        ports:
+            - "8888:8888"
+        environment:
+            spring.rabbitmq.host: rabbitmq
+            spring.profiles.active: default
+        depends_on:
+            - rabbitmq
+        networks:
+            my-network:
+
+    discovery-svc:
+        image: toolzowner/discovery-svc:1.0
+        ports:
+            - "8761:8761"
+        environment:
+            spring.cloud.config.uri: http://config-svc:8888
+        depends_on:
+            - config-svc
+        networks:
+            my-network:
+
+    gateway-svc:
+        image: toolzowner/gateway-svc:1.0
+        ports:
+            - "8000:8000"
+        environment:
+            spring.cloud.config.uri: http://config-svc:8888
+            spring.rabbitmq.host: rabbitmq
+            eureka.client.serviceUrl.defaultZone: http://discovery-svc:8761/eureka/
+        depends_on:
+            - discovery-svc
+            - config-svc
+        networks:
+            my-network:
+
+    user-svc:
+        image: toolzowner/user-svc:1.0
+        environment:
+            spring.cloud.config.uri: http://config-svc:8888
+            spring.rabbitmq.host: rabbitmq
+            # logging.file: /api-logs/users-ws.log
+            eureka.client.serviceUrl.defaultZone: http://discovery-svc:8761/eureka/
+        depends_on:
+            - gateway-svc
+        networks:
+            my-network:
+
+    post-svc:
+        image: toolzowner/post-svc:1.0
+        environment:
+            spring.cloud.config.uri: http://config-svc:8888
+            spring.rabbitmq.host: rabbitmq
+            # logging.file: /api-logs/posts-ws.log
+            eureka.client.serviceUrl.defaultZone: http://discovery-svc:8761/eureka/
+        depends_on:
+            - gateway-svc
+        networks:
+            my-network:
+
+networks:
+    my-network:
+        external: true
+        name: kz-network
