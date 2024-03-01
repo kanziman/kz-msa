@@ -1,4 +1,4 @@
-version: "2"
+version: "2.4" # Updated to support the platform key
 services:
     rabbitmq:
         image: rabbitmq:management
@@ -13,6 +13,7 @@ services:
             RABBITMQ_DEFAULT_PASS: guest
         networks:
             my-network:
+        platform: linux/amd64
 
     config-svc:
         image: toolzowner/config-svc:1.0
@@ -25,6 +26,7 @@ services:
             - rabbitmq
         networks:
             my-network:
+        platform: linux/amd64
 
     discovery-svc:
         image: toolzowner/discovery-svc:1.0
@@ -36,6 +38,7 @@ services:
             - config-svc
         networks:
             my-network:
+        platform: linux/amd64
 
     gateway-svc:
         image: toolzowner/gateway-svc:1.0
@@ -50,30 +53,31 @@ services:
             - config-svc
         networks:
             my-network:
+        platform: linux/amd64
 
     user-svc:
         image: toolzowner/user-svc:1.0
         environment:
             spring.cloud.config.uri: http://config-svc:8888
             spring.rabbitmq.host: rabbitmq
-            # logging.file: /api-logs/users-ws.log
             eureka.client.serviceUrl.defaultZone: http://discovery-svc:8761/eureka/
         depends_on:
             - gateway-svc
         networks:
             my-network:
+        platform: linux/amd64
 
     post-svc:
         image: toolzowner/post-svc:1.0
         environment:
             spring.cloud.config.uri: http://config-svc:8888
             spring.rabbitmq.host: rabbitmq
-            # logging.file: /api-logs/posts-ws.log
             eureka.client.serviceUrl.defaultZone: http://discovery-svc:8761/eureka/
         depends_on:
             - gateway-svc
         networks:
             my-network:
+        platform: linux/amd64
 
 networks:
     my-network:
