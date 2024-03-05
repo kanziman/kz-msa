@@ -3,8 +3,8 @@ package kr.kanzi.usersvc.presentation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.kanzi.usersvc.domain.Role;
 import kr.kanzi.usersvc.domain.User;
-import kr.kanzi.usersvc.presentation.dto.UpdateUserRequest;
-import kr.kanzi.usersvc.service.UserService;
+import kr.kanzi.usersvc.presentation.dto.UserUpdate;
+import kr.kanzi.usersvc.service.UserServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ class UserEntityControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    UserService userService;
+    UserServiceImpl userServiceImpl;
 
     @Autowired
     protected ObjectMapper objectMapper;
@@ -41,7 +41,7 @@ class UserEntityControllerTest {
     @WithMockUser(username="admin",roles={"USER","ADMIN"})
     void getUser() throws Exception {
         User user = createUser("user-id", "email1@com", Role.USER);
-        given(userService.findByUid(any())).willReturn(user);
+        given(userServiceImpl.getByUid(any())).willReturn(user);
 
         mockMvc.perform(get("/api/users/{uid}", user.getUid()))
                 .andDo(print())
@@ -54,7 +54,7 @@ class UserEntityControllerTest {
     @Test
     void createPostWithoutTitle() throws Exception {
         //given
-        UpdateUserRequest request = UpdateUserRequest.builder()
+        UserUpdate request = UserUpdate.builder()
                 .nickName("nick")
                 .email("e@mail.com")
                 .build();
@@ -75,7 +75,7 @@ class UserEntityControllerTest {
     @Test
     void updateUserWithoutNickname() throws Exception {
         //given
-        UpdateUserRequest request = UpdateUserRequest.builder()
+        UserUpdate request = UserUpdate.builder()
                 .email("e@mail.com")
                 .uid("uid")
                 .build();

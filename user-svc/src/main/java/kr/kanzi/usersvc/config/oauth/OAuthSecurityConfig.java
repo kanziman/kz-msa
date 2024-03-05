@@ -1,6 +1,6 @@
 package kr.kanzi.usersvc.config.oauth;
 
-import kr.kanzi.usersvc.service.UserService;
+import kr.kanzi.usersvc.service.UserServiceImpl;
 import kr.kanzi.usersvc.config.jwt.TokenProvider;
 import kr.kanzi.usersvc.filter.TokenAuthenticationFilter;
 import kr.kanzi.usersvc.infrastructure.RefreshTokenRepository;
@@ -25,7 +25,7 @@ public class OAuthSecurityConfig {
     private final OAuth2UserCustomService oAuth2UserCustomService;
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
     public final Environment env;
 
     @Bean
@@ -102,7 +102,7 @@ public class OAuthSecurityConfig {
         return new OAuth2SuccessHandler(tokenProvider,
                 refreshTokenRepository,
                 oAuth2AuthorizationRequestBasedOnCookieRepository(),
-                userService
+                userServiceImpl
         );
     }
 

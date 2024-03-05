@@ -2,7 +2,7 @@ package kr.kanzi.usersvc.infrastructure;
 
 
 import jakarta.persistence.*;
-import kr.kanzi.usersvc.domain.BaseEntity;
+import kr.kanzi.usersvc.common.BaseEntity;
 import kr.kanzi.usersvc.domain.Role;
 import kr.kanzi.usersvc.domain.User;
 import lombok.AccessLevel;

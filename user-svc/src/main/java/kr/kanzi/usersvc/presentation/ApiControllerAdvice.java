@@ -1,7 +1,7 @@
 package kr.kanzi.usersvc.presentation;
 
-import kr.kanzi.usersvc.domain.EntityNotFoundException;
-import kr.kanzi.usersvc.domain.NotAuthorizedUserException;
+import kr.kanzi.usersvc.common.exception.EntityNotFoundException;
+import kr.kanzi.usersvc.common.exception.NotAuthorizedUserException;
 import kr.kanzi.usersvc.util.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;

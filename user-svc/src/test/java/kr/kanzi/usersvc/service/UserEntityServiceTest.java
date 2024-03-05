@@ -1,6 +1,6 @@
 package kr.kanzi.usersvc.service;
 
-import kr.kanzi.usersvc.domain.EntityNotFoundException;
+import kr.kanzi.usersvc.common.exception.EntityNotFoundException;
 import kr.kanzi.usersvc.service.port.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 class UserEntityServiceTest {
 
     @InjectMocks
-    UserService userService;
+    UserServiceImpl userServiceImpl;
 
     @Mock
     UserRepository userRepository;
@@ -30,7 +30,7 @@ class UserEntityServiceTest {
     void findByUid(){
         when(userRepository.findByUid(any())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(EntityNotFoundException.class, () -> userService.findByUid("non-exist"));
+        Assertions.assertThrows(EntityNotFoundException.class, () -> userServiceImpl.getByUid("non-exist"));
     }
 
 }

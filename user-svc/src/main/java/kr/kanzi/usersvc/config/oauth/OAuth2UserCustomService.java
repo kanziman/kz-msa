@@ -1,12 +1,12 @@
 package kr.kanzi.usersvc.config.oauth;
 
-import kr.kanzi.usersvc.domain.Role;
+import kr.kanzi.usersvc.common.UuidHolder;
 import kr.kanzi.usersvc.domain.User;
+import kr.kanzi.usersvc.domain.UserCreate;
 import kr.kanzi.usersvc.service.port.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -24,6 +23,7 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
     private final JdbcTemplate jdbcTemplate;
+    private final UuidHolder uuidHolder;
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User user = super.loadUser(userRequest);
@@ -50,22 +50,18 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
         String email = oAuth2Dto.getEmail();
         String name = oAuth2Dto.getName();
 
-        User User = userRepository.findByEmail(email).orElse(null);
+        User user = userRepository.findByEmail(email).orElse(null);
 
         // New user
-        if (User == null) {
-            User = User.builder()
-                    .email(email)
-                    .name(name)
-                    .role(Role.USER)
-                    .password(new BCryptPasswordEncoder().encode("0000"))
-                    .nickname(genNickName())
-                    .uid(UUID.randomUUID().toString())
-                    .providerType(providerType.name())
-                    .build();
+        if (user == null) {
+
+            UserCreate userCreate = new UserCreate(email, name, providerType.name());
+
+            user = User.from(userCreate, uuidHolder);
+            user.updateNickName(genNickName());
 
         }
-        return userRepository.save(User);
+        return userRepository.save(user);
     }
 
     private String genNickName() {

@@ -1,4 +1,4 @@
-package kr.kanzi.usersvc.domain;
+package kr.kanzi.usersvc.common;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

@@ -1,15 +1,20 @@
 package kr.kanzi.usersvc.domain;
 
+import kr.kanzi.usersvc.common.UuidHolder;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
+@ToString
 public class User implements UserDetails {
 
     private Long id;
@@ -31,6 +36,16 @@ public class User implements UserDetails {
         this.password = password;
         this.nickname = nickname;
         this.providerType = providerType;
+    }
+    public static User from(UserCreate userCreate, UuidHolder uuidHolder) {
+        return User.builder()
+                .uid(uuidHolder.random())
+                .email(userCreate.getEmail())
+                .role(Role.USER)
+                .password(new BCryptPasswordEncoder().encode("0000"))
+                .providerType(userCreate.getProviderType())
+                .build();
+
     }
 
     public void updateNickName(String nickname) {

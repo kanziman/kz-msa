@@ -6,7 +6,7 @@ import kr.kanzi.usersvc.config.jwt.TokenProvider;
 import kr.kanzi.usersvc.domain.RefreshToken;
 import kr.kanzi.usersvc.domain.User;
 import kr.kanzi.usersvc.infrastructure.RefreshTokenRepository;
-import kr.kanzi.usersvc.service.UserService;
+import kr.kanzi.usersvc.service.UserServiceImpl;
 import kr.kanzi.usersvc.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -32,7 +32,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
     private final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository;
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     @Value("${callBackUrl:}")
     private String callBackUrl;
@@ -43,7 +43,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         String email = principal.getEmail();
 
-        User user = userService.findByEmail(email);
+        User user = userServiceImpl.getByEmail(email);
 
         String refreshToken = tokenProvider.generateToken(user, REFRESH_TOKEN_DURATION);
         saveRefreshToken(user.getUid(), refreshToken);

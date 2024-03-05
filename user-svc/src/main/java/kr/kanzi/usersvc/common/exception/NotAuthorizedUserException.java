@@ -1,4 +1,4 @@
-package kr.kanzi.usersvc.domain;
+package kr.kanzi.usersvc.common.exception;
 
 public class NotAuthorizedUserException extends RuntimeException{
     public NotAuthorizedUserException(String message) {

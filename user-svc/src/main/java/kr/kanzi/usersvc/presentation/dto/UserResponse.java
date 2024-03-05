@@ -9,6 +9,7 @@ import java.util.List;
 
 @Getter
 @ToString
+@Builder
 public class UserResponse {
     public static String PHOTO_URL = "https://api.dicebear.com/7.x/thumbs/svg?seed=";
 
@@ -20,14 +21,16 @@ public class UserResponse {
     private List roles;
     private String role;
 
-    @Builder
-    public UserResponse(User user) {
-        this.uid = user.getUid();
-        this.email = user.getEmail();
-        this.name = user.getName();
-        this.photoURL = PHOTO_URL + user.getUid();
-        this.nickName = user.getNickname();
-        this.role = user.getRole().getValue();
-        this.roles = (List) user.getAuthorities(role);
+
+    public static UserResponse from(User user) {
+        return UserResponse.builder()
+                .uid(user.getUid())
+                .name(user.getName())
+                .email(user.getEmail())
+                .nickName(user.getNickname())
+                .photoURL(PHOTO_URL + user.getUid())
+                .role(user.getRole().getValue())
+                .roles((List) user.getAuthorities())
+                .build();
     }
 }

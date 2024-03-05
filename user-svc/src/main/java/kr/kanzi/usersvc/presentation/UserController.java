@@ -2,9 +2,9 @@ package kr.kanzi.usersvc.presentation;
 
 import jakarta.validation.Valid;
 import kr.kanzi.usersvc.domain.User;
-import kr.kanzi.usersvc.presentation.dto.UpdateUserRequest;
+import kr.kanzi.usersvc.presentation.dto.UserUpdate;
 import kr.kanzi.usersvc.presentation.dto.UserResponse;
-import kr.kanzi.usersvc.service.UserService;
+import kr.kanzi.usersvc.service.UserServiceImpl;
 import kr.kanzi.usersvc.util.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
     private final Environment env;
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     @RequestMapping(value = "/health", method = RequestMethod.GET)
     public String health(){
@@ -32,16 +32,16 @@ public class UserController {
     @GetMapping("/api/users/{uid}")
     public ApiResponse<UserResponse> getUser(@PathVariable String uid) {
 
-        User user = userService.findByUid(uid);
-        UserResponse userResponse = new UserResponse(user);
+        User user = userServiceImpl.getByUid(uid);
+        UserResponse userResponse = UserResponse.from(user);
         return ApiResponse.of(HttpStatus.OK, userResponse);
     }
 
     @PutMapping("/api/users")
-    public ApiResponse<UserResponse> updateUser(@Valid @RequestBody UpdateUserRequest dto) {
+    public ApiResponse<UserResponse> updateUser(@Valid @RequestBody UserUpdate dto) {
 
-        userService.update(dto.getUid(), dto.getNickName());
-        UserResponse userResponse = new UserResponse(userService.findByUid(dto.getUid()));
+        userServiceImpl.update(dto.getUid(), dto.getNickName());
+        UserResponse userResponse = UserResponse.from(userServiceImpl.getByUid(dto.getUid()));
 
         return ApiResponse.of(HttpStatus.OK, userResponse);
     }

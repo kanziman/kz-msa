@@ -1,5 +1,6 @@
 package kr.kanzi.usersvc.infrastructure;
 
+import kr.kanzi.usersvc.common.exception.EntityNotFoundException;
 import kr.kanzi.usersvc.domain.User;
 import kr.kanzi.usersvc.service.port.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,17 @@ import java.util.Optional;
 public class UserRepositoryImpl implements UserRepository {
 
     private final UserJpaRepository userJpaRepository;
+
+
+    @Override
+    public User getById(long id) {
+        return findById(id).orElseThrow(()->new EntityNotFoundException("user not found"));
+    }
+
+    @Override
+    public Optional<User> findById(long id) {
+        return userJpaRepository.findById(id).map(UserEntity::toModel);
+    }
 
 
     @Override
