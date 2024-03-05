@@ -1,7 +1,7 @@
-package kr.kanzi.usersvc.application;
+package kr.kanzi.usersvc.service;
 
 import kr.kanzi.usersvc.domain.EntityNotFoundException;
-import kr.kanzi.usersvc.infrastructure.UserRepository;
+import kr.kanzi.usersvc.service.port.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+class UserEntityServiceTest {
 
     @InjectMocks
     UserService userService;

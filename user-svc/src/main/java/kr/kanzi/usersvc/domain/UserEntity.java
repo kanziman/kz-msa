@@ -2,18 +2,22 @@ package kr.kanzi.usersvc.domain;
 
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
 @Table(name = "Users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class User extends BaseEntity implements UserDetails{
+public class UserEntity extends BaseEntity implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +47,7 @@ public class User extends BaseEntity implements UserDetails{
     private String providerType;
 
     @Builder
-    private User(String email, String name, String password, String nickname, String uid, String providerType
+    private UserEntity(String email, String name, String password, String nickname, String uid, String providerType
             , Role roleType
     ) {
         this.email = email;
@@ -55,9 +59,8 @@ public class User extends BaseEntity implements UserDetails{
         this.role = roleType;
     }
 
-    public User update(String nickname) {
+    public void update(String nickname) {
         this.nickname = nickname;
-        return this;
     }
 
 

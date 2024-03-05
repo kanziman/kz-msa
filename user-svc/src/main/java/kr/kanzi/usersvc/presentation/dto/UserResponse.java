@@ -1,6 +1,6 @@
 package kr.kanzi.usersvc.presentation.dto;
 
-import kr.kanzi.usersvc.domain.User;
+import kr.kanzi.usersvc.domain.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -21,13 +21,13 @@ public class UserResponse {
     private String role;
 
     @Builder
-    public UserResponse(User user) {
-        this.uid = user.getUid();
-        this.email = user.getEmail();
-        this.name = user.getName();
-        this.photoURL = PHOTO_URL + user.getUid();
-        this.nickName = user.getNickname();
-        this.role = user.getRole().getValue();
-        this.roles = (List) user.getAuthorities(role);
+    public UserResponse(UserEntity userEntity) {
+        this.uid = userEntity.getUid();
+        this.email = userEntity.getEmail();
+        this.name = userEntity.getName();
+        this.photoURL = PHOTO_URL + userEntity.getUid();
+        this.nickName = userEntity.getNickname();
+        this.role = userEntity.getRole().getValue();
+        this.roles = (List) userEntity.getAuthorities(role);
     }
 }

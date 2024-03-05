@@ -5,8 +5,8 @@ import io.jsonwebtoken.security.Keys;
 import kr.kanzi.usersvc.config.jwt.JwtProperties;
 import kr.kanzi.usersvc.config.jwt.TokenProvider;
 import kr.kanzi.usersvc.domain.Role;
-import kr.kanzi.usersvc.domain.User;
-import kr.kanzi.usersvc.infrastructure.UserRepository;
+import kr.kanzi.usersvc.domain.UserEntity;
+import kr.kanzi.usersvc.infrastructure.UserJpaRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ class TokenProviderTest {
     private TokenProvider tokenProvider;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserJpaRepository userJpaRepository;
 
     @Autowired
     private JwtProperties jwtProperties;
@@ -45,7 +45,7 @@ class TokenProviderTest {
         SecretKey signingKey = new SecretKeySpec(secretKeyBytes, SignatureAlgorithm.HS256.getJcaName());
 
         // given
-        User testUser = userRepository.save(User.builder()
+        UserEntity testUserEntity = userJpaRepository.save(UserEntity.builder()
                 .uid(UUID.randomUUID().toString())
                 .email("user@gmail.com")
                 .password("test")
@@ -53,7 +53,7 @@ class TokenProviderTest {
                 .build());
 
         // when
-        String token = tokenProvider.generateToken(testUser, Duration.ofDays(14));
+        String token = tokenProvider.generateToken(testUserEntity, Duration.ofDays(14));
 
         JwtParser jwtParser = Jwts.parserBuilder()
                 .setSigningKey(signingKey)
@@ -61,7 +61,7 @@ class TokenProviderTest {
 
         String subject = jwtParser.parseClaimsJws(token).getBody().getSubject();
         String role = jwtParser.parseClaimsJws(token).getBody().get("role", String.class);
-        assertThat(subject).isEqualTo(testUser.getUid());
+        assertThat(subject).isEqualTo(testUserEntity.getUid());
         assertThat(role).isEqualTo(Role.ADMIN.name());
 
     }

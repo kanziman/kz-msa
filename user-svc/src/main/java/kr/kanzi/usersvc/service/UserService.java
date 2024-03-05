@@ -1,8 +1,8 @@
-package kr.kanzi.usersvc.application;
+package kr.kanzi.usersvc.service;
 
 import kr.kanzi.usersvc.domain.EntityNotFoundException;
-import kr.kanzi.usersvc.domain.User;
-import kr.kanzi.usersvc.infrastructure.UserRepository;
+import kr.kanzi.usersvc.domain.UserEntity;
+import kr.kanzi.usersvc.service.port.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,24 +17,20 @@ import java.util.Optional;
 @Slf4j
 public class UserService implements UserDetailsService {
 
+//    private final UserJpaRepository userJpaRepository;
     private final UserRepository userRepository;
-
     public void update(String uid, String nickName) {
-        User user = userRepository.findByUid(uid)
+        UserEntity userEntity = userRepository.findByUid(uid)
                 .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
-        user.update(nickName);
+        userEntity.update(nickName);
     }
 
-    public User findById(String userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
-    }
-    public User findByUid(String uid) {
+    public UserEntity findByUid(String uid) {
         return userRepository.findByUid(uid)
                 .orElseThrow(() -> new EntityNotFoundException("Unexpected user"));
     }
-    public User findByEmail(String email) {
-        Optional<User> byEmail = userRepository.findByEmail(email);
+    public UserEntity findByEmail(String email) {
+        Optional<UserEntity> byEmail = userRepository.findByEmail(email);
         System.out.println("byEmail = " + byEmail);
 
         return userRepository.findByEmail(email)

@@ -1,6 +1,6 @@
 package kr.kanzi.usersvc.config.oauth;
 
-import kr.kanzi.usersvc.application.UserService;
+import kr.kanzi.usersvc.service.UserService;
 import kr.kanzi.usersvc.config.jwt.TokenProvider;
 import kr.kanzi.usersvc.filter.TokenAuthenticationFilter;
 import kr.kanzi.usersvc.infrastructure.RefreshTokenRepository;

@@ -5,7 +5,7 @@ FROM openjdk:17-ea-11-jdk-slim
 VOLUME /tmp
 
 # Copy the built jar file into the image
-COPY build/libs/user-svc-1.0.jar user-svc.jar
+COPY build/libs/userEntity-svc-1.0.jar userEntity-svc.jar
 
 # Download wait-for-it script
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /wait-for-it.sh
@@ -14,4 +14,4 @@ ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.s
 RUN chmod +x /wait-for-it.sh
 
 # Use wait-for-it.sh to wait for config-svc to be ready before starting the application
-ENTRYPOINT ["/wait-for-it.sh", "config-svc:8888", "--", "java", "-jar", "/user-svc.jar"]
+ENTRYPOINT ["/wait-for-it.sh", "config-svc:8888", "--", "java", "-jar", "/userEntity-svc.jar"]

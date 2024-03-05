@@ -1,8 +1,8 @@
 package kr.kanzi.usersvc.config.oauth;
 
 import kr.kanzi.usersvc.domain.Role;
-import kr.kanzi.usersvc.domain.User;
-import kr.kanzi.usersvc.infrastructure.UserRepository;
+import kr.kanzi.usersvc.domain.UserEntity;
+import kr.kanzi.usersvc.service.port.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -29,15 +29,15 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
         OAuth2User user = super.loadUser(userRequest);
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
-        User savedUser = saveOrUpdate(user,registrationId);
+        UserEntity savedUserEntity = saveOrUpdate(user,registrationId);
         return OAuth2Provider.builder()
-                .name(savedUser.getName())
-                .email(savedUser.getEmail())
+                .name(savedUserEntity.getName())
+                .email(savedUserEntity.getEmail())
                 .build();
     }
 
     // ❷ 유저가 있으면 업데이트, 없으면 유저 생성
-    private User saveOrUpdate(OAuth2User oAuth2User, String registrationId) {
+    private UserEntity saveOrUpdate(OAuth2User oAuth2User, String registrationId) {
         log.info("save or update :" + oAuth2User.getName());
         ProviderType providerType = ProviderType.valueOf(registrationId.toUpperCase());
 
@@ -50,11 +50,11 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
         String email = oAuth2Dto.getEmail();
         String name = oAuth2Dto.getName();
 
-        User user = userRepository.findByEmail(email).orElse(null);
+        UserEntity userEntity = userRepository.findByEmail(email).orElse(null);
 
         // New user
-        if (user == null) {
-            user = User.builder()
+        if (userEntity == null) {
+            userEntity = UserEntity.builder()
                     .email(email)
                     .name(name)
                     .roleType(Role.USER)
@@ -65,7 +65,7 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
                     .build();
 
         }
-        return userRepository.save(user);
+        return userRepository.save(userEntity);
     }
 
     private String genNickName() {
@@ -77,8 +77,7 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
         int number = new Random().nextInt(10000);
         String fourDigitNum = String.format("%04d", number);
 
-        String finalName = name + fourDigitNum;
-        return finalName;
+        return name + fourDigitNum;
     }
 
 }
