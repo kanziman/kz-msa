@@ -1,10 +1,10 @@
 package kr.kanzi.usersvc.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kr.kanzi.usersvc.domain.UserEntity;
-import kr.kanzi.usersvc.service.UserService;
 import kr.kanzi.usersvc.domain.Role;
+import kr.kanzi.usersvc.domain.User;
 import kr.kanzi.usersvc.presentation.dto.UpdateUserRequest;
+import kr.kanzi.usersvc.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,14 +40,14 @@ class UserEntityControllerTest {
     @DisplayName("유저 아이디로 유저를 조회할 수 있다.")
     @WithMockUser(username="admin",roles={"USER","ADMIN"})
     void getUser() throws Exception {
-        UserEntity userEntity = createUser("user-id", "email1@com", Role.USER);
-        given(userService.findByUid(any())).willReturn(userEntity);
+        User user = createUser("user-id", "email1@com", Role.USER);
+        given(userService.findByUid(any())).willReturn(user);
 
-        mockMvc.perform(get("/api/users/{uid}", userEntity.getUid()))
+        mockMvc.perform(get("/api/users/{uid}", user.getUid()))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.uid").value(userEntity.getUid()))
-                .andExpect(jsonPath("$.data.email").value(userEntity.getEmail()));
+                .andExpect(jsonPath("$.data.uid").value(user.getUid()))
+                .andExpect(jsonPath("$.data.email").value(user.getEmail()));
     }
 
     @DisplayName("유저 업데이트 할 때 아이디값은 필수값이다.")
@@ -92,11 +93,11 @@ class UserEntityControllerTest {
                 .andExpect(jsonPath("$.data").isEmpty());
     }
 
-    private UserEntity createUser(String uid, String email, Role role) {
-        return UserEntity.builder()
+    private User createUser(String uid, String email, Role role) {
+        return User.builder()
                 .uid(uid)
                 .email(email)
-                .roleType(role)
+                .role(role)
                 .build();
     }
 }

@@ -1,6 +1,6 @@
 package kr.kanzi.usersvc.infrastructure;
 
-import kr.kanzi.usersvc.domain.UserEntity;
+import kr.kanzi.usersvc.domain.User;
 import kr.kanzi.usersvc.service.port.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -15,17 +15,17 @@ public class UserRepositoryImpl implements UserRepository {
 
 
     @Override
-    public Optional<UserEntity> findByEmail(String email) {
-        return userJpaRepository.findByEmail(email);
+    public Optional<User> findByEmail(String email) {
+        return userJpaRepository.findByEmail(email).map(UserEntity::toModel);
     }
 
     @Override
-    public Optional<UserEntity> findByUid(String uid) {
-        return userJpaRepository.findByUid(uid);
+    public Optional<User> findByUid(String uid) {
+        return userJpaRepository.findByUid(uid).map(UserEntity::toModel);
     }
 
     @Override
-    public UserEntity save(UserEntity userEntity) {
-        return userJpaRepository.save(userEntity);
+    public User save(User user) {
+        return userJpaRepository.save(UserEntity.from(user)).toModel();
     }
 }

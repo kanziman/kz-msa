@@ -1,12 +1,14 @@
 package kr.kanzi.usersvc.jwt;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import kr.kanzi.usersvc.config.jwt.JwtProperties;
 import kr.kanzi.usersvc.config.jwt.TokenProvider;
 import kr.kanzi.usersvc.domain.Role;
-import kr.kanzi.usersvc.domain.UserEntity;
-import kr.kanzi.usersvc.infrastructure.UserJpaRepository;
+import kr.kanzi.usersvc.domain.User;
+import kr.kanzi.usersvc.service.port.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,7 @@ class TokenProviderTest {
     private TokenProvider tokenProvider;
 
     @Autowired
-    private UserJpaRepository userJpaRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private JwtProperties jwtProperties;
@@ -45,15 +47,17 @@ class TokenProviderTest {
         SecretKey signingKey = new SecretKeySpec(secretKeyBytes, SignatureAlgorithm.HS256.getJcaName());
 
         // given
-        UserEntity testUserEntity = userJpaRepository.save(UserEntity.builder()
+        User testUser = User.builder()
                 .uid(UUID.randomUUID().toString())
                 .email("user@gmail.com")
                 .password("test")
-                .roleType(Role.ADMIN)
-                .build());
+                .role(Role.ADMIN)
+                .build();
+
+        User savedUser = userRepository.save(testUser);
 
         // when
-        String token = tokenProvider.generateToken(testUserEntity, Duration.ofDays(14));
+        String token = tokenProvider.generateToken(savedUser, Duration.ofDays(14));
 
         JwtParser jwtParser = Jwts.parserBuilder()
                 .setSigningKey(signingKey)
@@ -61,7 +65,7 @@ class TokenProviderTest {
 
         String subject = jwtParser.parseClaimsJws(token).getBody().getSubject();
         String role = jwtParser.parseClaimsJws(token).getBody().get("role", String.class);
-        assertThat(subject).isEqualTo(testUserEntity.getUid());
+        assertThat(subject).isEqualTo(savedUser.getUid());
         assertThat(role).isEqualTo(Role.ADMIN.name());
 
     }

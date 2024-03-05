@@ -1,7 +1,7 @@
 package kr.kanzi.usersvc.config.oauth;
 
 import kr.kanzi.usersvc.domain.Role;
-import kr.kanzi.usersvc.domain.UserEntity;
+import kr.kanzi.usersvc.domain.User;
 import kr.kanzi.usersvc.service.port.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,15 +29,15 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
         OAuth2User user = super.loadUser(userRequest);
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
-        UserEntity savedUserEntity = saveOrUpdate(user,registrationId);
+        User savedUser = saveOrUpdate(user, registrationId);
         return OAuth2Provider.builder()
-                .name(savedUserEntity.getName())
-                .email(savedUserEntity.getEmail())
+                .name(savedUser.getName())
+                .email(savedUser.getEmail())
                 .build();
     }
 
     // ❷ 유저가 있으면 업데이트, 없으면 유저 생성
-    private UserEntity saveOrUpdate(OAuth2User oAuth2User, String registrationId) {
+    private User saveOrUpdate(OAuth2User oAuth2User, String registrationId) {
         log.info("save or update :" + oAuth2User.getName());
         ProviderType providerType = ProviderType.valueOf(registrationId.toUpperCase());
 
@@ -50,14 +50,14 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
         String email = oAuth2Dto.getEmail();
         String name = oAuth2Dto.getName();
 
-        UserEntity userEntity = userRepository.findByEmail(email).orElse(null);
+        User User = userRepository.findByEmail(email).orElse(null);
 
         // New user
-        if (userEntity == null) {
-            userEntity = UserEntity.builder()
+        if (User == null) {
+            User = User.builder()
                     .email(email)
                     .name(name)
-                    .roleType(Role.USER)
+                    .role(Role.USER)
                     .password(new BCryptPasswordEncoder().encode("0000"))
                     .nickname(genNickName())
                     .uid(UUID.randomUUID().toString())
@@ -65,7 +65,7 @@ public class OAuth2UserCustomService extends DefaultOAuth2UserService {
                     .build();
 
         }
-        return userRepository.save(userEntity);
+        return userRepository.save(User);
     }
 
     private String genNickName() {

@@ -2,11 +2,11 @@ package kr.kanzi.usersvc.config.oauth;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import kr.kanzi.usersvc.domain.UserEntity;
-import kr.kanzi.usersvc.service.UserService;
 import kr.kanzi.usersvc.config.jwt.TokenProvider;
 import kr.kanzi.usersvc.domain.RefreshToken;
+import kr.kanzi.usersvc.domain.User;
 import kr.kanzi.usersvc.infrastructure.RefreshTokenRepository;
+import kr.kanzi.usersvc.service.UserService;
 import kr.kanzi.usersvc.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -43,14 +43,14 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         String email = principal.getEmail();
 
-        UserEntity userEntity = userService.findByEmail(email);
+        User user = userService.findByEmail(email);
 
-        String refreshToken = tokenProvider.generateToken(userEntity, REFRESH_TOKEN_DURATION);
-        saveRefreshToken(userEntity.getUid(), refreshToken);
+        String refreshToken = tokenProvider.generateToken(user, REFRESH_TOKEN_DURATION);
+        saveRefreshToken(user.getUid(), refreshToken);
         addRefreshTokenToCookie(request, response, refreshToken);
 
-        String accessToken = tokenProvider.generateToken(userEntity, ACCESS_TOKEN_DURATION);
-        String targetUrl = getTargetUrl(accessToken, userEntity.getUid());
+        String accessToken = tokenProvider.generateToken(user, ACCESS_TOKEN_DURATION);
+        String targetUrl = getTargetUrl(accessToken, user.getUid());
 
         clearAuthenticationAttributes(request, response);
 

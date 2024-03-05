@@ -1,10 +1,10 @@
 package kr.kanzi.usersvc.presentation;
 
 import jakarta.validation.Valid;
-import kr.kanzi.usersvc.service.UserService;
-import kr.kanzi.usersvc.domain.UserEntity;
+import kr.kanzi.usersvc.domain.User;
 import kr.kanzi.usersvc.presentation.dto.UpdateUserRequest;
 import kr.kanzi.usersvc.presentation.dto.UserResponse;
+import kr.kanzi.usersvc.service.UserService;
 import kr.kanzi.usersvc.util.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
@@ -32,8 +32,8 @@ public class UserController {
     @GetMapping("/api/users/{uid}")
     public ApiResponse<UserResponse> getUser(@PathVariable String uid) {
 
-        UserEntity userEntity = userService.findByUid(uid);
-        UserResponse userResponse = new UserResponse(userEntity);
+        User user = userService.findByUid(uid);
+        UserResponse userResponse = new UserResponse(user);
         return ApiResponse.of(HttpStatus.OK, userResponse);
     }
 

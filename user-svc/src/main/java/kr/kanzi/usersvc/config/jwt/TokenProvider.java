@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import kr.kanzi.usersvc.domain.UserEntity;
+import kr.kanzi.usersvc.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,12 +24,12 @@ public class TokenProvider {
 
     private final JwtProperties jwtProperties;
 
-    public String generateToken(UserEntity userEntity, Duration expiredAt) {
+    public String generateToken(User user, Duration expiredAt) {
         Date now = new Date();
-        return makeToken(new Date(now.getTime() + expiredAt.toMillis()), userEntity);
+        return makeToken(new Date(now.getTime() + expiredAt.toMillis()), user);
     }
 
-    private String makeToken(Date expiry, UserEntity userEntity) {
+    private String makeToken(Date expiry, User user) {
         Date now = new Date();
         byte[] secretKeyBytes = Base64.getEncoder().encode(jwtProperties.getSecretKey().getBytes());
         SecretKey secretKey = Keys.hmacShaKeyFor(secretKeyBytes);
@@ -39,9 +39,9 @@ public class TokenProvider {
                 .setIssuer(jwtProperties.getIssuer())
                 .setIssuedAt(now)
                 .setExpiration(expiry)
-                .setSubject(userEntity.getUid())
-                .claim("email", userEntity.getEmail())
-                .claim("role", userEntity.getRole())
+                .setSubject(user.getUid())
+                .claim("email", user.getEmail())
+                .claim("role", user.getRole())
 //                .signWith(Keys.hmacShaKeyFor(secretKeyBytes), SignatureAlgorithm.HS256) // Use Keys.hmacShaKeyFor for HS256
                 .signWith(secretKey)
                 .compact();
