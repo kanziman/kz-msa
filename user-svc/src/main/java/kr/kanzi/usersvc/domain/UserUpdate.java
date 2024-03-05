@@ -1,4 +1,4 @@
-package kr.kanzi.usersvc.presentation.dto;
+package kr.kanzi.usersvc.domain;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;

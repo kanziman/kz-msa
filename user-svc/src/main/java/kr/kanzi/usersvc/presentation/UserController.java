@@ -2,10 +2,14 @@ package kr.kanzi.usersvc.presentation;
 
 import jakarta.validation.Valid;
 import kr.kanzi.usersvc.domain.User;
-import kr.kanzi.usersvc.presentation.dto.UserUpdate;
-import kr.kanzi.usersvc.presentation.dto.UserResponse;
+import kr.kanzi.usersvc.domain.UserUpdate;
+import kr.kanzi.usersvc.presentation.port.UserReadService;
+import kr.kanzi.usersvc.presentation.port.UserService;
+import kr.kanzi.usersvc.presentation.port.UserUpdateService;
+import kr.kanzi.usersvc.presentation.response.UserResponse;
 import kr.kanzi.usersvc.service.UserServiceImpl;
 import kr.kanzi.usersvc.util.ApiResponse;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -14,9 +18,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 //@RequestMapping("/user-svc")
 @RequiredArgsConstructor
+@Builder
 public class UserController {
     private final Environment env;
-    private final UserServiceImpl userServiceImpl;
+//    private final UserServiceImpl userServiceImpl;
+    private final UserService userService;
+//    private final UserReadService userReadService;
+//    private final UserUpdateService userUpdateService;
 
     @RequestMapping(value = "/health", method = RequestMethod.GET)
     public String health(){
@@ -32,7 +40,7 @@ public class UserController {
     @GetMapping("/api/users/{uid}")
     public ApiResponse<UserResponse> getUser(@PathVariable String uid) {
 
-        User user = userServiceImpl.getByUid(uid);
+        User user = userService.getByUid(uid);
         UserResponse userResponse = UserResponse.from(user);
         return ApiResponse.of(HttpStatus.OK, userResponse);
     }
@@ -40,8 +48,8 @@ public class UserController {
     @PutMapping("/api/users")
     public ApiResponse<UserResponse> updateUser(@Valid @RequestBody UserUpdate dto) {
 
-        userServiceImpl.update(dto.getUid(), dto.getNickName());
-        UserResponse userResponse = UserResponse.from(userServiceImpl.getByUid(dto.getUid()));
+        userService.update(dto.getUid(), dto.getNickName());
+        UserResponse userResponse = UserResponse.from(userService.getByUid(dto.getUid()));
 
         return ApiResponse.of(HttpStatus.OK, userResponse);
     }

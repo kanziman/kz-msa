@@ -2,8 +2,8 @@ server:
   port: 0
 
 spring:
-#  profiles:
-#    active: local
+  profiles:
+    active: local
   application:
     name: post-svc
   rabbitmq:

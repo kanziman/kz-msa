@@ -3,7 +3,7 @@ package kr.kanzi.usersvc.presentation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.kanzi.usersvc.domain.Role;
 import kr.kanzi.usersvc.domain.User;
-import kr.kanzi.usersvc.presentation.dto.UserUpdate;
+import kr.kanzi.usersvc.domain.UserUpdate;
 import kr.kanzi.usersvc.service.UserServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package kr.kanzi.usersvc.presentation.dto;
+package kr.kanzi.usersvc.presentation.response;
 
 import kr.kanzi.usersvc.domain.User;
 import lombok.Builder;

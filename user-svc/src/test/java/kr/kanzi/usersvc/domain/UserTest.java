@@ -2,7 +2,7 @@ package kr.kanzi.usersvc.domain;
 
 import kr.kanzi.usersvc.config.oauth.ProviderType;
 import kr.kanzi.usersvc.mock.TestUuidHolder;
-import kr.kanzi.usersvc.presentation.dto.UserResponse;
+import kr.kanzi.usersvc.presentation.response.UserResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

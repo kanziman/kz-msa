@@ -3,7 +3,7 @@ package kr.kanzi.usersvc.service;
 import kr.kanzi.usersvc.domain.User;
 import kr.kanzi.usersvc.mock.FakeUserRepository;
 import kr.kanzi.usersvc.mock.TestUuidHolder;
-import kr.kanzi.usersvc.presentation.dto.UserUpdate;
+import kr.kanzi.usersvc.domain.UserUpdate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
