@@ -5,11 +5,13 @@ import kr.kanzi.usersvc.common.exception.EntityNotFoundException;
 import kr.kanzi.usersvc.domain.User;
 import kr.kanzi.usersvc.infrastructure.service.ClientService;
 import kr.kanzi.usersvc.presentation.port.UserService;
-import kr.kanzi.usersvc.presentation.response.PostResponse;
 import kr.kanzi.usersvc.presentation.response.PostResponseWrapper;
+import kr.kanzi.usersvc.presentation.response.UserResponse;
 import kr.kanzi.usersvc.service.port.UserRepository;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //@RequiredArgsConstructor
@@ -31,6 +34,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private final Environment env;
     // restTemplate or feign
     private final ClientService clientService;
+    private final CircuitBreakerFactory circuitBreakerFactory;
 
 
     public void update(String uid, String nickName) {
@@ -52,12 +56,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                 .orElseThrow(() -> new EntityNotFoundException("Unexpected user"));
     }
 
-    public List<PostResponse> getByUidWithLike(String uid) {
-        List<PostResponse> response = null;
-        PostResponseWrapper wrapper = clientService.open(uid, HttpMethod.GET, PostResponseWrapper.class);
-        response =  wrapper.getData();
+    public UserResponse getByUidWithLike(String uid) {
+        User user = userRepository.findByUid(uid)
+                .orElseThrow(() -> new EntityNotFoundException("Unexpected user"));
+        UserResponse userResponse = UserResponse.from(user);
+//        PostResponseWrapper wrapper = clientService.open(uid, HttpMethod.GET, PostResponseWrapper.class);
 
-        return response;
+        CircuitBreaker circuitBreaker = circuitBreakerFactory.create("circuitBreaker");
+        List result = (List) circuitBreaker.run(() -> clientService.open(uid, HttpMethod.GET, PostResponseWrapper.class).getData(),
+                throwable -> new ArrayList<>());
+
+        userResponse.addPosts(result);
+        return userResponse;
     }
     public User getByEmail(String email) {
         return userRepository.findByEmail(email)

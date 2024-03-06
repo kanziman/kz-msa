@@ -1,6 +1,7 @@
 package kr.kanzi.usersvc.presentation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.micrometer.core.annotation.Timed;
 import jakarta.validation.Valid;
 import kr.kanzi.usersvc.domain.User;
 import kr.kanzi.usersvc.domain.UserUpdate;
@@ -46,9 +47,10 @@ public class UserController {
         return ApiResponse.of(HttpStatus.OK, userResponse);
     }
     @GetMapping("/api/users/{uid}/likes")
+    @Timed(value="users.likes", longTask = true)
     public ApiResponse<UserResponse> getUserLikes(@PathVariable String uid) throws JsonProcessingException {
 
-        List<PostResponse> byUidWithLike = userService.getByUidWithLike(uid);
+        UserResponse byUidWithLike = userService.getByUidWithLike(uid);
         return ApiResponse.of(HttpStatus.OK, byUidWithLike);
     }
 

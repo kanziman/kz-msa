@@ -21,6 +21,7 @@ public class UserResponse {
     private List roles;
     private String role;
 
+    private List<PostResponse> posts;
 
     public static UserResponse from(User user) {
         return UserResponse.builder()
@@ -32,5 +33,9 @@ public class UserResponse {
                 .role(user.getRole().getValue())
                 .roles((List) user.getAuthorities())
                 .build();
+    }
+
+    public void addPosts(List<PostResponse> posts){
+        this.posts = posts;
     }
 }

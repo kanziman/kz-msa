@@ -8,11 +8,12 @@ import kr.kanzi.usersvc.infrastructure.service.RestTemplateServiceImpl;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-@EnableFeignClients
+@EnableFeignClients(basePackages = "kr.kanzi.usersvc.infrastructure")
 public class ClientBeanConfiguration {
 
     @Bean
