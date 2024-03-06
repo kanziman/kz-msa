@@ -64,6 +64,9 @@ dependencies {
     //amqp
     implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
 
+    //feign
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
 }
 
 dependencyManagement {

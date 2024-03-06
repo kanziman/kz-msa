@@ -3,7 +3,7 @@ package kr.kanzi.usersvc.config.oauth;
 import kr.kanzi.usersvc.service.UserServiceImpl;
 import kr.kanzi.usersvc.config.jwt.TokenProvider;
 import kr.kanzi.usersvc.filter.TokenAuthenticationFilter;
-import kr.kanzi.usersvc.infrastructure.RefreshTokenRepository;
+import kr.kanzi.usersvc.infrastructure.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

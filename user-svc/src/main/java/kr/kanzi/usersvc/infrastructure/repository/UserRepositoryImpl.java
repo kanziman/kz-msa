@@ -1,4 +1,4 @@
-package kr.kanzi.usersvc.infrastructure;
+package kr.kanzi.usersvc.infrastructure.repository;
 
 import kr.kanzi.usersvc.common.exception.EntityNotFoundException;
 import kr.kanzi.usersvc.domain.User;

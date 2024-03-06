@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import kr.kanzi.usersvc.config.jwt.TokenProvider;
 import kr.kanzi.usersvc.domain.RefreshToken;
 import kr.kanzi.usersvc.domain.User;
-import kr.kanzi.usersvc.infrastructure.RefreshTokenRepository;
+import kr.kanzi.usersvc.infrastructure.repository.RefreshTokenRepository;
 import kr.kanzi.usersvc.service.UserServiceImpl;
 import kr.kanzi.usersvc.util.CookieUtil;
 import lombok.RequiredArgsConstructor;

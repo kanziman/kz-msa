@@ -3,17 +3,23 @@ package kr.kanzi.usersvc.service;
 import kr.kanzi.usersvc.common.UuidHolder;
 import kr.kanzi.usersvc.common.exception.EntityNotFoundException;
 import kr.kanzi.usersvc.domain.User;
+import kr.kanzi.usersvc.infrastructure.service.ClientService;
 import kr.kanzi.usersvc.presentation.port.UserService;
+import kr.kanzi.usersvc.presentation.response.PostResponse;
+import kr.kanzi.usersvc.presentation.response.PostResponseWrapper;
 import kr.kanzi.usersvc.service.port.UserRepository;
 import lombok.Builder;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor
+import java.util.List;
+
+//@RequiredArgsConstructor
 @Service
 @Slf4j
 @Builder
@@ -22,6 +28,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 //    private final UserJpaRepository userJpaRepository;
     private final UserRepository userRepository;
     private final UuidHolder uuidHolder;
+    private final Environment env;
+    // restTemplate or feign
+    private final ClientService clientService;
 
 
     public void update(String uid, String nickName) {
@@ -41,6 +50,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public User getByUid(String uid) {
         return userRepository.findByUid(uid)
                 .orElseThrow(() -> new EntityNotFoundException("Unexpected user"));
+    }
+
+    public List<PostResponse> getByUidWithLike(String uid) {
+        List<PostResponse> response = null;
+        PostResponseWrapper wrapper = clientService.open(uid, HttpMethod.GET, PostResponseWrapper.class);
+        response =  wrapper.getData();
+
+        return response;
     }
     public User getByEmail(String email) {
         return userRepository.findByEmail(email)

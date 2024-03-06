@@ -1,4 +1,4 @@
-package kr.kanzi.usersvc.infrastructure;
+package kr.kanzi.usersvc.infrastructure.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,19 +1,20 @@
 package kr.kanzi.usersvc.presentation;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
 import kr.kanzi.usersvc.domain.User;
 import kr.kanzi.usersvc.domain.UserUpdate;
-import kr.kanzi.usersvc.presentation.port.UserReadService;
 import kr.kanzi.usersvc.presentation.port.UserService;
-import kr.kanzi.usersvc.presentation.port.UserUpdateService;
+import kr.kanzi.usersvc.presentation.response.PostResponse;
 import kr.kanzi.usersvc.presentation.response.UserResponse;
-import kr.kanzi.usersvc.service.UserServiceImpl;
 import kr.kanzi.usersvc.util.ApiResponse;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 //@RequestMapping("/user-svc")
@@ -43,6 +44,12 @@ public class UserController {
         User user = userService.getByUid(uid);
         UserResponse userResponse = UserResponse.from(user);
         return ApiResponse.of(HttpStatus.OK, userResponse);
+    }
+    @GetMapping("/api/users/{uid}/likes")
+    public ApiResponse<UserResponse> getUserLikes(@PathVariable String uid) throws JsonProcessingException {
+
+        List<PostResponse> byUidWithLike = userService.getByUidWithLike(uid);
+        return ApiResponse.of(HttpStatus.OK, byUidWithLike);
     }
 
     @PutMapping("/api/users")
