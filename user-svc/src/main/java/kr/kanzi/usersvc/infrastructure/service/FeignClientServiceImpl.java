@@ -1,6 +1,7 @@
 package kr.kanzi.usersvc.infrastructure.service;
 
 import kr.kanzi.usersvc.presentation.response.PostResponseWrapper;
+import kr.kanzi.usersvc.service.port.ClientService;
 import org.springframework.http.HttpMethod;
 
 public class FeignClientServiceImpl implements ClientService {

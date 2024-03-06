@@ -3,7 +3,7 @@ package kr.kanzi.usersvc.service;
 import kr.kanzi.usersvc.common.UuidHolder;
 import kr.kanzi.usersvc.common.exception.EntityNotFoundException;
 import kr.kanzi.usersvc.domain.User;
-import kr.kanzi.usersvc.infrastructure.service.ClientService;
+import kr.kanzi.usersvc.service.port.ClientService;
 import kr.kanzi.usersvc.presentation.port.UserService;
 import kr.kanzi.usersvc.presentation.response.PostResponseWrapper;
 import kr.kanzi.usersvc.presentation.response.UserResponse;

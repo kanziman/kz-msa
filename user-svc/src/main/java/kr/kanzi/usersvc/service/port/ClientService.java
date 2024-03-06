@@ -1,4 +1,4 @@
-package kr.kanzi.usersvc.infrastructure.service;
+package kr.kanzi.usersvc.service.port;
 
 import org.springframework.http.HttpMethod;
 

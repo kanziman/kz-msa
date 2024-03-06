@@ -1,6 +1,6 @@
 package kr.kanzi.usersvc.infrastructure.configuration;
 
-import kr.kanzi.usersvc.infrastructure.service.ClientService;
+import kr.kanzi.usersvc.service.port.ClientService;
 import kr.kanzi.usersvc.infrastructure.service.FeignClientService;
 import kr.kanzi.usersvc.presentation.response.PostResponse;
 import kr.kanzi.usersvc.presentation.response.PostResponseWrapper;

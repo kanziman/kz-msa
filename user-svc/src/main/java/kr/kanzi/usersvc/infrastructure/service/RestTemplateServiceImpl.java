@@ -1,5 +1,6 @@
 package kr.kanzi.usersvc.infrastructure.service;
 
+import kr.kanzi.usersvc.service.port.ClientService;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
